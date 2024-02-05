@@ -21,6 +21,22 @@ const Movie = (props) => {
       })
   }, [id]);
 
+   // Function to handle adding movie to favorites
+   const handleAddToFavorites = () => {
+    addToFavorites(movie);
+  };
+
+  const handleDelete = () => {
+    axios.delete(`http://localhost:9000/api/movies/${id}`)
+      .then(() => {
+        navigate('/movies'); // Redirects the user to the movies list after deletion
+      })
+      .catch(err => {
+        console.error(err);
+      });
+  };
+  
+
   return (<div className="modal-page col">
     <div className="modal-dialog">
       <div className="modal-content">
@@ -50,9 +66,12 @@ const Movie = (props) => {
             </section>
 
             <section>
-              <span className="m-2 btn btn-dark">Favorite</span>
+            <span className="m-2 btn btn-dark" onClick={handleAddToFavorites}>Favorite</span>
               <Link to={`/movies/edit/${movie.id}`} className="m-2 btn btn-success">Edit</Link>
               <span className="delete"><input type="button" className="m-2 btn btn-danger" value="Delete" /></span>
+              <span className="delete">
+  <input type="button" className="m-2 btn btn-danger" value="Delete" onClick={handleDelete} />
+</span>
             </section>
           </div>
         </div>
